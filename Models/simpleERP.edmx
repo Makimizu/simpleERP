@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="simpleERPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'simpleERP.dbo.poD' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="poD">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="poId" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="poId" Type="int" Nullable="false" />
+          <Property Name="Itemno" Type="nvarchar" MaxLength="20" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="qty" Type="int" />
+          <Property Name="tax" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="disc" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="total" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="poH">
+          <Key>
+            <PropertyRef Name="poId" />
+          </Key>
+          <Property Name="poId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="podate" Type="datetime" />
+          <Property Name="companyId" Type="nchar" MaxLength="4" />
+          <Property Name="note" Type="nvarchar" MaxLength="500" />
+          <Property Name="totalTax" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="totalDisc" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="total" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="tblCompanys">
+          <Key>
+            <PropertyRef Name="companyId" />
+          </Key>
+          <Property Name="companyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="companyName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="address" Type="nvarchar" MaxLength="150" />
+          <Property Name="city" Type="nvarchar" MaxLength="100" />
+          <Property Name="poscode" Type="nchar" MaxLength="5" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" />
+          <Property Name="phone" Type="nvarchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="tblItems">
+          <Key>
+            <PropertyRef Name="itemno" />
+          </Key>
+          <Property Name="itemno" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="itemname" Type="nvarchar" MaxLength="100" />
+          <Property Name="uom" Type="nvarchar" MaxLength="50" />
+          <Property Name="minstock" Type="int" />
+        </EntityType>
+        <EntityType Name="tblUsers">
+          <Key>
+            <PropertyRef Name="username" />
+          </Key>
+          <Property Name="username" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" />
+          <Property Name="fullname" Type="nvarchar" MaxLength="100" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" />
+          <Property Name="phone" Type="nvarchar" MaxLength="15" />
+        </EntityType>
+        <EntityContainer Name="simpleERPModelStoreContainer">
+          <EntitySet Name="poH" EntityType="Self.poH" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCompanys" EntityType="Self.tblCompanys" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblItems" EntityType="Self.tblItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="poD" EntityType="Self.poD" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [poD].[id] AS [id], 
+    [poD].[poId] AS [poId], 
+    [poD].[Itemno] AS [Itemno], 
+    [poD].[price] AS [price], 
+    [poD].[qty] AS [qty], 
+    [poD].[tax] AS [tax], 
+    [poD].[disc] AS [disc], 
+    [poD].[total] AS [total]
+    FROM [dbo].[poD] AS [poD]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="simpleERPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="poH">
+          <Key>
+            <PropertyRef Name="poId" />
+          </Key>
+          <Property Name="poId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="podate" Type="DateTime" Precision="3" />
+          <Property Name="companyId" Type="String" MaxLength="4" FixedLength="true" Unicode="true" />
+          <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="totalTax" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="totalDisc" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="total" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="tblItem">
+          <Key>
+            <PropertyRef Name="itemno" />
+          </Key>
+          <Property Name="itemno" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="itemname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="uom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="minstock" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="username" />
+          </Key>
+          <Property Name="username" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fullname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="poD">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="poId" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="poId" Type="Int32" Nullable="false" />
+          <Property Name="Itemno" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="qty" Type="Int32" />
+          <Property Name="tax" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="disc" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="total" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityContainer Name="simpleERPEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="poHs" EntityType="Self.poH" />
+          <EntitySet Name="tblItems" EntityType="Self.tblItem" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+          <EntitySet Name="poDs" EntityType="Self.poD" />
+          <EntitySet Name="tblCompanys" EntityType="simpleERPModel.tblCompany" />
+        </EntityContainer>
+        <EntityType Name="tblCompany">
+          <Key>
+            <PropertyRef Name="companyId" />
+          </Key>
+          <Property Name="companyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="companyName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="city" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="poscode" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="simpleERPModelStoreContainer" CdmEntityContainer="simpleERPEntities">
+          <EntitySetMapping Name="poHs">
+            <EntityTypeMapping TypeName="simpleERPModel.poH">
+              <MappingFragment StoreEntitySet="poH">
+                <ScalarProperty Name="poId" ColumnName="poId" />
+                <ScalarProperty Name="podate" ColumnName="podate" />
+                <ScalarProperty Name="companyId" ColumnName="companyId" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="totalTax" ColumnName="totalTax" />
+                <ScalarProperty Name="totalDisc" ColumnName="totalDisc" />
+                <ScalarProperty Name="total" ColumnName="total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblItems">
+            <EntityTypeMapping TypeName="simpleERPModel.tblItem">
+              <MappingFragment StoreEntitySet="tblItems">
+                <ScalarProperty Name="itemno" ColumnName="itemno" />
+                <ScalarProperty Name="itemname" ColumnName="itemname" />
+                <ScalarProperty Name="uom" ColumnName="uom" />
+                <ScalarProperty Name="minstock" ColumnName="minstock" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUsers">
+            <EntityTypeMapping TypeName="simpleERPModel.tblUser">
+              <MappingFragment StoreEntitySet="tblUsers">
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="poDs">
+            <EntityTypeMapping TypeName="simpleERPModel.poD">
+              <MappingFragment StoreEntitySet="poD">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="poId" ColumnName="poId" />
+                <ScalarProperty Name="Itemno" ColumnName="Itemno" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="tax" ColumnName="tax" />
+                <ScalarProperty Name="disc" ColumnName="disc" />
+                <ScalarProperty Name="total" ColumnName="total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCompanys">
+            <EntityTypeMapping TypeName="simpleERPModel.tblCompany">
+              <MappingFragment StoreEntitySet="tblCompanys">
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="poscode" ColumnName="poscode" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="companyName" ColumnName="companyName" />
+                <ScalarProperty Name="companyId" ColumnName="companyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

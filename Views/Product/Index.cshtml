@@ -1,0 +1,259 @@
+﻿
+@{
+    ViewBag.Title = "List Product";
+}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="card">
+        <div class="header">
+            <h2>@ViewBag.Title</h2>
+            <br />
+            <button type="button" class="btn btn-primary waves-effect m-r-20" data-toggle="modal" data-target="#addModal">Add Product</button>
+        </div>
+        <div class="body">
+            <div class="table-responsive">
+                <table id="dataTables1" class="table table-bordered table-striped table-hover js-basic-example dataTable"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="defaultModalLabel">Add Product</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <label for="productNo">Product No</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" id="productNo" class="form-control" placeholder="Enter product no here">
+                        </div>
+                    </div>
+
+                    <label for="productName">Product Name</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" id="productName" class="form-control" placeholder="Enter product name here">
+                        </div>
+                    </div>
+
+                    <label for="productUom">Product Uom</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" id="productUom" class="form-control" placeholder="Enter uom here">
+                        </div>
+                    </div>
+
+                    <label for="minStock">Min. Stock</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" id="minStock" class="form-control" placeholder="Enter minimal stock here">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="btnSubmit" class="btn btn-success waves-effect">SAVE</button>
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title" id="defaultModalLabel">Edit User</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="updateproductNo">Product No</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" id="updateproductNo" class="form-control" placeholder="Enter product no here" readonly>
+                        </div>
+                    </div>
+
+                    <label for="updateproductName">Product Name</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" id="updateproductName" class="form-control" placeholder="Enter product name here">
+                        </div>
+                    </div>
+
+                    <label for="updateproductUom">Product Uom</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" id="updateproductUom" class="form-control" placeholder="Enter uom here">
+                        </div>
+                    </div>
+
+                    <label for="updateminStock">Min. Stock</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" id="updateminStock" class="form-control" placeholder="Enter minimal stock here">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btnUpdateProduct" class="btn btn-success waves-effect">SAVE</button>
+                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form>
+                <div class="modal-body">
+                    <p>Are you sure want to delete this product <label id="lblProductNo"></label>-<label id="lblProductName"></label></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btnDeleteProduct" class="btn btn-success waves-effect">OK</button>
+                    <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">CANCEL</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Assets/plugins/jquery-datatable/jquery.dataTables.js"></script>
+    <script src="~/Assets/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+    <script src="~/Assets/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+    <script src="~/Assets/plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+    <script src="~/Assets/plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
+    <script src="~/Assets/plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+    <script src="~/Assets/plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+    <script src="~/Assets/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+    <script src="~/Assets/plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                $("form").submit(function () { return false; });
+            });
+
+            $('#btnSubmit').click(function () {
+                $.ajax({
+                    url: "/Product/saveProduct",
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        productNo: $('#productNo').val(),
+                        productName: $('#productName').val(),
+                        productUom: $('#productUom').val(),
+                        minStock: $('#minStock').val(),
+                    },
+                    success: function (message) {
+                        if (message.success) {
+                            $('#addModal').modal('toggle');
+                            Table.ajax.reload();
+                        } else {
+                            alert(message.Message);
+                        }
+                    }
+                })
+            });
+
+            var Table = $('#dataTables1').DataTable({
+                serverSide: true,
+                processing: true,
+                paging: true,
+                searching: false,
+                ajax: {
+                    url: "/Product/getDataProducts",
+                    type: "POST",
+                    dataSrc: 'data',
+                    "error": function (data) {
+                        alert(data.message);
+                    },
+                },
+                columns: [
+                    { data: "itemno", title: 'Product No' },
+                    { data: "itemname", title: 'Product Name' },
+                    { data: "uom", title: 'Uom' },
+                    { data: "minstock", title: 'Min. Stock' },
+                    {
+                        title: '',
+                        render: function (data, type, row) {
+                            return "<div class='btn-toolbar'><div class='btn-group mr-4' role='group'><button type='button' id='btnDelete' class='btn btn-danger btn-xs' data-itemno='" + row.itemno + "' data-itemname='" + row.itemname + "' >Delete</button></div><div class='btn-group mr-4' role='group'> <button type='button' id='btnUpdate' class='btn btn-warning btn-xs' data-itemno='" + row.itemno + "' data-itemname='" + row.itemname + "' data-uom='" + row.uom + "' data-minstock='" + row.minstock + "'>Update</button></div></div>";
+                        }
+                    }
+                ]
+            });
+
+            $(document).on('click', '#btnDelete', function () {
+                var itemno = $(this).data('itemno');
+                var itemname = $(this).data('itemname');
+                $('#lblProductNo').html(itemno);
+                $('#lblProductName').html(itemname);
+                $('#deleteModal').modal('show');
+            });
+
+            $(document).on('click', '#btnUpdate', function () {
+                var itemno = $(this).data('itemno');
+                var itemname = $(this).data('itemname');
+                var uom = $(this).data('uom');
+                var minstock = $(this).data('minstock');
+
+                $('#updateproductNo').val(itemno);
+                $('#updateproductName').val(itemname);
+                $('#updateproductUom').val(uom);
+                $('#updateminStock').val(minstock);
+                $('#editModal').modal('show');
+            });
+
+            $('#btnUpdateProduct').click(function () {
+                $.ajax({
+                    type: 'post',
+                    url: '/Product/updateProduct',
+                    data: {
+                        productNo: $('#updateproductNo').val(),
+                        productName: $('#updateproductName').val(),
+                        productUom: $('#updateproductUom').val(),
+                        minStock: $('#updateminStock').val(),
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            alert(result.message);
+                            $('#editModal').modal('hide');
+                            $('#dataTables1').DataTable().ajax.reload();
+                        } else {
+                            alert(result.message);
+                        }
+                    }
+                });
+            });
+
+            $('#btnDeleteProduct').click(function () {
+                $.ajax({
+                    type: 'post',
+                    url: '/Product/deleteProduct',
+                    data: {
+                        productNo: $('#lblProductNo').html(),
+                        productName: $('#lblProductName').html(),
+                    },
+                    success: function (result) {
+                        if (result.status == "ERROR") {
+                            alert(result.data);
+                        }
+                        else {
+                            alert(result.status);
+                            $('#deleteModal').modal('hide');
+                            $('#dataTables1').DataTable().ajax.reload();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

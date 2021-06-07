@@ -1,0 +1,273 @@
+﻿
+@{
+    ViewBag.Title = "List User";
+}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="card">
+        <div class="header">
+            <h2>@ViewBag.Title</h2>
+            <br />
+            <button type="button" class="btn btn-primary waves-effect m-r-20" data-toggle="modal" data-target="#addModal">Add User</button>
+        </div>
+        <div class="body">
+            <div class="table-responsive">
+                <table id="dataTables1" class="table table-bordered table-striped table-hover js-basic-example dataTable"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="defaultModalLabel">Add User</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <label for="username">Username</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" id="username" class="form-control" placeholder="Enter username here">
+                        </div>
+                    </div>
+
+                    <label for="password">Password</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="password" id="password" class="form-control" placeholder="Enter password here">
+                        </div>
+                    </div>
+
+                    <label for="fullname">Fullname</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" id="fullname" class="form-control" placeholder="Enter fullname here">
+                        </div>
+                    </div>
+
+                    <label for="email">Email</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" id="email" class="form-control" placeholder="Enter email here">
+                        </div>
+                    </div>
+
+                    <label for="phone">Phone</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" id="phone" class="form-control" placeholder="Enter phone here">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="btnSubmit" class="btn btn-success waves-effect">SAVE</button>
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title" id="defaultModalLabel">Edit User</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="updateUsername">Username</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" id="updateUsername" class="form-control" placeholder="Enter username here" readonly>
+                        </div>
+                    </div>
+
+                    <label for="updatePassword">Password</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="password" id="updatePassword" class="form-control" placeholder="Enter password here">
+                        </div>
+                    </div>
+
+                    <label for="updateFullname">Fullname</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" id="updateFullname" class="form-control" placeholder="Enter fullname here">
+                        </div>
+                    </div>
+
+                    <label for="email">Email</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" id="updateEmail" class="form-control" placeholder="Enter email here" readonly>
+                        </div>
+                    </div>
+
+                    <label for="phone">Phone</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" id="updatePhone" class="form-control" placeholder="Enter phone here">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btnUpdateUser" class="btn btn-success waves-effect">SAVE</button>
+                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form>
+                <div class="modal-body">
+                    <p>Are you sure want to delete username <label id="lblUsername"></label></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btnDeleteUser" class="btn btn-success waves-effect">OK</button>
+                    <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">CANCEL</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Assets/plugins/jquery-datatable/jquery.dataTables.js"></script>
+    <script src="~/Assets/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+    <script src="~/Assets/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+    <script src="~/Assets/plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+    <script src="~/Assets/plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
+    <script src="~/Assets/plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+    <script src="~/Assets/plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+    <script src="~/Assets/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+    <script src="~/Assets/plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                $("form").submit(function () { return false; });
+            });
+
+            $('#btnSubmit').click(function () {
+                $.ajax({
+                    url: "/User/saveUser",
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        username: $('#username').val(),
+                        password: $('#password').val(),
+                        fullname: $('#fullname').val(),
+                        email: $('#email').val(),
+                        phone: $('#phone').val(),
+                    },
+                    success: function (message) {
+                        if (message.success) {
+                            $('#addModal').modal('toggle');
+                            Table.ajax.reload();
+                        } else {
+                            alert(message.Message);
+                        }
+                    }
+                })
+            });
+
+            var Table = $('#dataTables1').DataTable({
+                serverSide: true,
+                processing: true,
+                paging: true,
+                searching: false,
+                ajax: {
+                    url: "/User/getDataUsers",
+                    type: "POST",
+                    dataSrc: 'data',
+                    "error": function (data) {
+                        alert(data.message);
+                    },
+                },
+                columns: [
+                    { data: "username", title: 'Username' },
+                    { data: "fullname", title: 'Fullname' },
+                    { data: "email", title: 'Email' },
+                    { data: "phone", title: 'Phone' },
+                    {
+                        title: '',
+                        render: function (data, type, row) {
+                            return "<div class='btn-toolbar'><div class='btn-group mr-4' role='group'><button type='button' id='btnDelete' class='btn btn-danger btn-xs' data-username='" + row.username + "'>Delete</button></div><div class='btn-group mr-4' role='group'> <button type='button' id='btnUpdate' class='btn btn-warning btn-xs' data-username='" + row.username + "' data-fullname='" + row.fullname + "' data-email='" + row.email + "' data-phone='" + row.phone + "'>Update</button></div></div>";
+                        }
+                    }
+                ]
+            });
+
+            $(document).on('click', '#btnDelete', function () {
+                var username = $(this).data('username');
+                $('#lblUsername').html(username);
+                $('#deleteModal').modal('show');
+            });
+
+            $(document).on('click', '#btnUpdate', function () {
+                var username = $(this).data('username');
+                var fullname = $(this).data('fullname');
+                var email = $(this).data('email');
+                var phone = $(this).data('phone');
+
+                $('#updateUsername').val(username);
+                $('#updateFullname').val(fullname);
+                $('#updateEmail').val(email);
+                $('#updatePhone').val(phone);
+                $('#editModal').modal('show');
+            });
+
+            $('#btnUpdateUser').click(function () {
+                $.ajax({
+                    type: 'post',
+                    url: '/User/updateUser',
+                    data: {
+                        username: $('#updateUsername').val(),
+                        password: $('#updatePassword').val(),
+                        fullname: $('#updateFullname').val(),
+                        phone: $('#updatePhone').val(),
+                    },
+                    success: function (result) {
+                        
+                        if (result.success) {
+                            alert(result.message);
+                            
+                            $('#editModal').modal('hide');
+                            $('#dataTables1').DataTable().ajax.reload();
+                        } else {
+                            alert(result.message);
+                        }
+                    }
+                });
+            });
+
+            $('#btnDeleteUser').click(function () {
+                $.ajax({
+                    type: 'post',
+                    url: '/User/deleteUser',
+                    data: {
+                        username: $('#lblUsername').html(),
+                    },
+                    success: function (result) {
+                        if (result.status == "ERROR") {
+                            alert(result.data);
+                        }
+                        else {
+                            alert(result.status);
+                            $('#deleteModal').modal('hide');
+                            $('#dataTables1').DataTable().ajax.reload();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
